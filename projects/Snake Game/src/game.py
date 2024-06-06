@@ -18,6 +18,7 @@ class Game:
         self.high_score = self.load_high_score()
 
     def game_loop(self):
+        """Handles the game play logic."""
         while True:
             self.play_step()
             game_over, score = self.play_step()
@@ -54,9 +55,16 @@ class Game:
         return False
 
     def game_over(self):
+        """Determine if game is over by checking for a snake collision.
+
+        Returns:
+            bool: True if the game is over, False otherwise.
+        """
+
         return self.is_collision()
 
     def get_user_input(self):
+        """Retrieve input from user."""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -72,7 +80,7 @@ class Game:
                     self.snake.direction = Direction.DOWN
 
     def play_step(self):
-        """Executes one step through the game."""
+        """Execute one step through the game."""
         self.get_user_input()
         self.snake.move(self.snake.direction)
         if self.snake.head == self.food:
@@ -87,29 +95,17 @@ class Game:
         return game_over, self.score
 
     def place_food(self):
-        """Randomly places the food on the screen."""
-        x = (
-            random.randint(
-                0,
-                (self.display.width - GameSettings.BLOCK_SIZE)
-                // GameSettings.BLOCK_SIZE,
-            )
-            * GameSettings.BLOCK_SIZE
-        )
-        y = (
-            random.randint(
-                0,
-                (self.display.height - GameSettings.BLOCK_SIZE)
-                // GameSettings.BLOCK_SIZE,
-            )
-            * GameSettings.BLOCK_SIZE
-        )
+        """Randomly place the food on the screen."""
+        x = random.randint(0, (
+                self.display.width - GameSettings.BLOCK_SIZE) // GameSettings.BLOCK_SIZE) * GameSettings.BLOCK_SIZE
+        y = random.randint(0, (
+                self.display.height - GameSettings.BLOCK_SIZE) // GameSettings.BLOCK_SIZE) * GameSettings.BLOCK_SIZE
         self.food = Point(x, y)
         if self.food in self.snake.blocks:
             self.place_food()
 
     def play_again(self):
-        """Asks the user to play again or quit the game."""
+        """Prompt the user to play again or quit the game."""
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -121,14 +117,14 @@ class Game:
                         return True
 
     def restart_game(self):
-        """Resets the state of the game."""
+        """Reset the state of the game."""
         self.snake = Snake()
         self.score = 0
         self.place_food()
         self.high_score = self.load_high_score()
 
     def load_high_score(self):
-        """Loads the high score from a JSON file."""
+        """Load the high score from a JSON file."""
         try:
             with open("high_score.json", "r") as file:
                 data = json.load(file)
@@ -137,7 +133,7 @@ class Game:
             return 0
 
     def update_high_score(self, new_score):
-        """Updates the high score in the JSON file if the new score is greater than the current high score."""
+        """Update the high score in the JSON file if the new score is greater than the current high score."""
         high_score = self.load_high_score()
         if new_score > high_score:
             data = {"high_score": new_score}

@@ -5,7 +5,7 @@ class Snake:
     """Represents the snake in the game."""
 
     def __init__(self, init_length=3):
-        """Initializes the snake.
+        """Initialize the snake.
 
         Args:
             init_length (int): Length of the snake on initialization.
@@ -19,7 +19,7 @@ class Snake:
         self.direction = Direction.RIGHT
 
     def move(self, direction):
-        """Moves the snake in the given direction.
+        """Move the snake in the given direction.
 
         Args:
             direction (Direction): The direction to move the snake.
@@ -41,7 +41,7 @@ class Snake:
         return self.head
 
     def self_collision(self):
-        """Checks if the snake collides with itself.
+        """Check if the snake collides with itself.
 
         Returns:
             bool: True if the snake collides with its body, False otherwise.

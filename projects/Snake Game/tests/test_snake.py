@@ -8,14 +8,14 @@ class TestSnake(unittest.TestCase):
         self.snake = Snake()
 
     def test_init(self):
-        self.assertEqual(
-            self.snake.head, Point(GameSettings.WIDTH / 2, GameSettings.HEIGHT / 2)
-        )
+        """Test the initialization of the Snake object."""
+        self.assertEqual(self.snake.head, Point(GameSettings.WIDTH / 2, GameSettings.HEIGHT / 2))
         self.assertEqual(self.snake.block_size, GameSettings.BLOCK_SIZE)
         self.assertEqual(len(self.snake.blocks), 3)
         self.assertEqual(self.snake.direction, Direction.RIGHT)
 
     def test_move(self):
+        """Test that the snake moves by one block unit."""
         init_head = self.snake.head
         self.snake.move(Direction.RIGHT)
         new_head_position = Point(init_head.x + GameSettings.BLOCK_SIZE, init_head.y)
@@ -23,6 +23,7 @@ class TestSnake(unittest.TestCase):
         self.assertEqual(self.snake.blocks[0], new_head_position)
 
     def test_self_collision(self):
+        """Test that a collision is detected with the snake head inside its body."""
         self.snake.head = Point(100, 100)
         self.snake.blocks = [
             self.snake.head,
